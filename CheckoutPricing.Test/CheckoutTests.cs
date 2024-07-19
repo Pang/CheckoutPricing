@@ -81,7 +81,7 @@ namespace CheckoutPricing.Test
             }
 
             Product productTwo = testProducts.First(p => p.SKU == "2");
-            DiscountRule ruleTwo = rules.First(x => x.SKU == productOne.SKU);
+            DiscountRule ruleTwo = rules.First(x => x.SKU == productTwo.SKU);
 
             for (int i = 0; i < ruleTwo.Quantity; i++)
             {
@@ -91,7 +91,7 @@ namespace CheckoutPricing.Test
             decimal sumOfDiscountedProducts = ruleOne.DiscountPrice + ruleTwo.DiscountPrice;
             decimal totalPrice = checkout.GetTotalPrice();
 
-            Assert.That(totalPrice, Is.Not.EqualTo(sumOfDiscountedProducts));
+            Assert.That(totalPrice, Is.EqualTo(sumOfDiscountedProducts));
         }
 
         [Test]

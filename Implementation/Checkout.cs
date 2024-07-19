@@ -22,9 +22,32 @@ namespace CheckoutPricing.Implementation
         }
 
         /// <inheritdoc />
-        public int GetTotalPrice()
+        public decimal GetTotalPrice()
         {
-            return 0;
+            List<Product> products = _products.Distinct().ToList();
+            decimal totalPrice = 0;
+
+            foreach (Product product in products)
+            {
+                if (_discountRules.Exists(x => x.SKU == product.SKU))
+                {
+                    // find number of itemsthen apply discount
+                    var discountRule = _discountRules.First(x => x.SKU == product.SKU);
+                    int noOfProduct = _products.Count(x => x.SKU.Equals(product.SKU));
+
+                    var noOfDiscounts = noOfProduct / discountRule.Quantity;
+                    var remainder = noOfProduct % discountRule.Quantity;
+
+                    totalPrice = discountRule.DiscountPrice * noOfDiscounts;
+                    totalPrice += remainder;
+                }
+                else
+                {
+                    totalPrice = product.Price * _products.Count(x => x.SKU.Equals(product.SKU));
+                }
+            }
+
+            return totalPrice;
         }
     }
 }

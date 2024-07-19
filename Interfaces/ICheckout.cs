@@ -22,6 +22,6 @@ namespace CheckoutPricing.Interfaces
         /// Get the total price of all products including discounts.
         /// </summary>
         /// <returns></returns>
-        int GetTotalPrice();
+        decimal GetTotalPrice();
     }
 }

@@ -4,7 +4,7 @@ namespace CheckoutPricing.Test.Helpers
 {
     static class ProductsListHelper
     {
-        static List<Product> GetTestProducts()
+        public static List<Product> GetTestProducts()
         {
             List<Product> testProducts = new List<Product>();
 

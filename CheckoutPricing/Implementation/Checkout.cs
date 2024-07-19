@@ -31,7 +31,6 @@ namespace CheckoutPricing.Implementation
             {
                 if (_discountRules.Exists(x => x.SKU == product.SKU))
                 {
-                    // find number of itemsthen apply discount
                     var discountRule = _discountRules.First(x => x.SKU == product.SKU);
                     int noOfProduct = _products.Count(x => x.SKU.Equals(product.SKU));
 

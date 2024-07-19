@@ -24,10 +24,10 @@ namespace CheckoutPricing.Implementation
         /// <inheritdoc />
         public decimal GetTotalPrice()
         {
-            List<Product> products = _products.Distinct().ToList();
+            List<Product> distinctProducts = _products.Distinct().ToList();
             decimal totalPrice = 0;
 
-            foreach (Product product in products)
+            foreach (Product product in distinctProducts)
             {
                 if (_discountRules.Exists(x => x.SKU == product.SKU))
                 {
@@ -37,12 +37,12 @@ namespace CheckoutPricing.Implementation
                     var noOfDiscounts = noOfProduct / discountRule.Quantity;
                     var remainder = noOfProduct % discountRule.Quantity;
 
-                    totalPrice = discountRule.DiscountPrice * noOfDiscounts;
+                    totalPrice += discountRule.DiscountPrice * noOfDiscounts;
                     totalPrice += remainder;
                 }
                 else
                 {
-                    totalPrice = product.Price * _products.Count(x => x.SKU.Equals(product.SKU));
+                    totalPrice += product.Price * _products.Count(x => x.SKU.Equals(product.SKU));
                 }
             }
 

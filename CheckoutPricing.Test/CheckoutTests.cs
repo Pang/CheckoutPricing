@@ -60,6 +60,41 @@ namespace CheckoutPricing.Test
         }
 
         [Test]
+        public void TestMultipleDiscountedProducts()
+        {
+            Checkout checkout = new Checkout();
+
+            var testProducts = ProductsListHelper.GetTestProducts();
+
+            List<DiscountRule> rules = ProductsListHelper.GetDiscountRules();
+            foreach (DiscountRule rule in rules)
+            {
+                checkout.AddDiscountRule(rule.SKU, rule.Quantity, rule.DiscountPrice);
+            }
+
+            Product productOne = testProducts.First(p => p.SKU == "1");
+            DiscountRule ruleOne = rules.First(x => x.SKU == productOne.SKU);
+
+            for (int i = 0; i < ruleOne.Quantity; i++)
+            {
+                checkout.Scan(productOne);
+            }
+
+            Product productTwo = testProducts.First(p => p.SKU == "2");
+            DiscountRule ruleTwo = rules.First(x => x.SKU == productOne.SKU);
+
+            for (int i = 0; i < ruleTwo.Quantity; i++)
+            {
+                checkout.Scan(productTwo);
+            }
+
+            decimal sumOfDiscountedProducts = ruleOne.DiscountPrice + ruleTwo.DiscountPrice;
+            decimal totalPrice = checkout.GetTotalPrice();
+
+            Assert.That(totalPrice, Is.Not.EqualTo(sumOfDiscountedProducts));
+        }
+
+        [Test]
         public void TestMultipleDiscountedProductsIsNotFullPrice()
         {
             Checkout checkout = new Checkout();

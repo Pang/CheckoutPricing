@@ -40,5 +40,47 @@ namespace CheckoutPricing.Test.Helpers
 
             return testProducts;
         }
+
+        public static List<DiscountRule> GetDiscountRules()
+        {
+            List<DiscountRule> discountRules = new List<DiscountRule>();
+
+            discountRules.Add(new DiscountRule() 
+            { 
+                SKU = "1", 
+                Quantity = 3,
+                DiscountPrice = 2 
+            });
+
+            discountRules.Add(new DiscountRule()
+            {
+                SKU = "2",
+                Quantity = 4,
+                DiscountPrice = 18
+            });
+
+            discountRules.Add(new DiscountRule()
+            {
+                SKU = "3",
+                Quantity = 2,
+                DiscountPrice = 5
+            });
+
+            discountRules.Add(new DiscountRule()
+            {
+                SKU = "4",
+                Quantity = 2,
+                DiscountPrice = 20
+            });
+
+            discountRules.Add(new DiscountRule()
+            {
+                SKU = "5",
+                Quantity = 3,
+                DiscountPrice = 17.50m
+            });
+
+            return discountRules;
+        }
     }
 }

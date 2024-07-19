@@ -41,25 +41,49 @@ namespace CheckoutPricing.Test
         {
             Checkout checkout = new Checkout();
 
-            // Add some products
             var testProducts = ProductsListHelper.GetTestProducts();
             decimal discountPrice = 2;
+            int quantity = 3;
 
-            // Add some discount rules
-            checkout.AddDiscountRule("1", 3, discountPrice);
+            checkout.AddDiscountRule("1", quantity, discountPrice);
             
-            // Scan some products
             Product productOne = testProducts.First(x => x.SKU == "1");
 
-            checkout.Scan(productOne);
-            checkout.Scan(productOne);
-            checkout.Scan(productOne);
+            for (int i = 0; i < quantity; i++)
+            {
+                checkout.Scan(productOne);
+            }
 
-            // Check total costs
             decimal totalPrice = checkout.GetTotalPrice();
 
             Assert.That(totalPrice, Is.EqualTo(discountPrice));
         }
 
+        [Test]
+        public void TestMultipleDiscountedProductsIsNotFullPrice()
+        {
+            Checkout checkout = new Checkout();
+
+            var testProducts = ProductsListHelper.GetTestProducts();
+            int quantityOfEach = 5;
+
+            foreach(DiscountRule rule in ProductsListHelper.GetDiscountRules())
+            {
+                checkout.AddDiscountRule(rule.SKU, rule.Quantity, rule.DiscountPrice);
+            }
+
+            foreach(var testProduct in testProducts)
+            {
+                for(int i = 0; i < quantityOfEach; i++)
+                {
+                    checkout.Scan(testProduct);
+                }
+            }
+
+            decimal sumOfTestProducts = testProducts.Sum(x => x.Price);
+            decimal totalPrice = checkout.GetTotalPrice();
+
+            Assert.That(totalPrice, Is.Not.EqualTo(sumOfTestProducts));
+        }
     }
 }

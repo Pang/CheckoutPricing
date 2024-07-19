@@ -11,7 +11,7 @@ namespace CheckoutPricing.Test
         public void TestSingleNonDiscountedProduct()
         {
             Checkout checkout = new Checkout();
-            var testProducts = ProductsListHelper.GetTestProducts();
+            List<Product> testProducts = ProductsListHelper.GetTestProducts();
 
             Product product = testProducts.First(x => x.SKU == "2");
             checkout.Scan(product);
@@ -24,9 +24,9 @@ namespace CheckoutPricing.Test
         public void TestMultipleNonDiscountedProducts()
         {
             Checkout checkout = new Checkout();
-            var testProducts = ProductsListHelper.GetTestProducts();
+            List<Product> testProducts = ProductsListHelper.GetTestProducts();
 
-            foreach (var testProduct in testProducts)
+            foreach (Product testProduct in testProducts)
             {
                 checkout.Scan(testProduct);
             }
@@ -41,7 +41,7 @@ namespace CheckoutPricing.Test
         {
             Checkout checkout = new Checkout();
 
-            var testProducts = ProductsListHelper.GetTestProducts();
+            List<Product> testProducts = ProductsListHelper.GetTestProducts();
             decimal discountPrice = 2;
             int quantity = 3;
 
@@ -64,7 +64,7 @@ namespace CheckoutPricing.Test
         {
             Checkout checkout = new Checkout();
 
-            var testProducts = ProductsListHelper.GetTestProducts();
+            List<Product> testProducts = ProductsListHelper.GetTestProducts();
 
             List<DiscountRule> rules = ProductsListHelper.GetDiscountRules();
             foreach (DiscountRule rule in rules)
@@ -99,7 +99,7 @@ namespace CheckoutPricing.Test
         {
             Checkout checkout = new Checkout();
 
-            var testProducts = ProductsListHelper.GetTestProducts();
+            List<Product> testProducts = ProductsListHelper.GetTestProducts();
             int quantityOfEach = 5;
 
             foreach(DiscountRule rule in ProductsListHelper.GetDiscountRules())
@@ -107,7 +107,7 @@ namespace CheckoutPricing.Test
                 checkout.AddDiscountRule(rule.SKU, rule.Quantity, rule.DiscountPrice);
             }
 
-            foreach(var testProduct in testProducts)
+            foreach(Product testProduct in testProducts)
             {
                 for(int i = 0; i < quantityOfEach; i++)
                 {

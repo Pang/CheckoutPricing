@@ -4,6 +4,10 @@ namespace CheckoutPricing.Test.Helpers
 {
     static class ProductsListHelper
     {
+        /// <summary>
+        /// Get a predefined list of Products.
+        /// </summary>
+        /// <returns>List of test products.</returns>
         public static List<Product> GetTestProducts()
         {
             List<Product> testProducts = new List<Product>();
@@ -41,6 +45,10 @@ namespace CheckoutPricing.Test.Helpers
             return testProducts;
         }
 
+        /// <summary>
+        /// Get a predefined list of type DiscountRules.
+        /// </summary>
+        /// <returns>List of discount rules.</returns>
         public static List<DiscountRule> GetDiscountRules()
         {
             List<DiscountRule> discountRules = new List<DiscountRule>();

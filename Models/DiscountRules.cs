@@ -1,6 +1,6 @@
 ﻿namespace CheckoutPricing.Models
 {
-    public class DiscountRules
+    public class DiscountRule
     {
         public string SKU { get; set; }
         public int Quantity { get; set; }

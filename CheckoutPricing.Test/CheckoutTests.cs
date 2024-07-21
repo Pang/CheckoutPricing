@@ -120,5 +120,34 @@ namespace CheckoutPricing.Test
 
             Assert.That(totalPrice, Is.Not.EqualTo(sumOfTestProducts));
         }
+
+        [TestCase("1")]
+        [TestCase("2")]
+        [TestCase("3")]
+        public void TestProductsOverDiscountLimit(string sku)
+        {
+            Checkout checkout = new Checkout();
+
+            List<Product> testProducts = ProductsListHelper.GetTestProducts();
+
+            List<DiscountRule> rules = ProductsListHelper.GetDiscountRules();
+            foreach (DiscountRule rule in rules)
+            {
+                checkout.AddDiscountRule(rule.SKU, rule.Quantity, rule.DiscountPrice);
+            }
+
+            Product product = testProducts.First(p => p.SKU == sku);
+            DiscountRule discountRule = rules.First(x => x.SKU == sku);
+
+            for (int i = 0; i < discountRule.Quantity + 1; i++)
+            {
+                checkout.Scan(product);
+            }
+
+            decimal sumOfAllProducts = discountRule.DiscountPrice + product.Price;
+            decimal totalPrice = checkout.GetTotalPrice();
+
+            Assert.That(totalPrice, Is.EqualTo(sumOfAllProducts));
+        }
     }
 }

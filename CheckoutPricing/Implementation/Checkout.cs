@@ -38,7 +38,7 @@ namespace CheckoutPricing.Implementation
                     var remainder = noOfProduct % discountRule.Quantity;
 
                     totalPrice += discountRule.DiscountPrice * noOfDiscounts;
-                    totalPrice += remainder;
+                    totalPrice += product.Price * remainder;
                 }
                 else
                 {
